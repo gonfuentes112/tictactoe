@@ -6,10 +6,11 @@ function Board() {
     }
 
     const markCell = (playerValue, location) => {
-        if (!location.isEmpty()) {
+        const cell = innerBoard[location];
+        if (!cell.isEmpty()) {
             return false;
         }
-        location.setValue(playerValue);
+        cell.setValue(playerValue);
         return true;
     }
 
@@ -110,6 +111,7 @@ function GameLogic() {
         if (moveExecuted) {
             switchTurn();
         }
+        return moveExecuted;
 
     }
 
@@ -126,9 +128,40 @@ function GameVisual() {
     const winnerField = document.getElementById('winner-field');
     const screenBoard = document.getElementById('screen-board');
 
+    function score(event) {
+        const target = event.target;
+        if (!target.classList.contains('button')) {
+            return;
+        }
+
+        if (target.classList.contains('player-one-cell')
+            || target.classList.contains('player-two-cell')) {
+            return
+        }
+
+        const location = target.dataset.location;
+        const currentPlayer = gameLogic.getActivePlayer();
+        const moveExecuted = gameLogic.makeMove(location);
+        if (moveExecuted) {
+            if (currentPlayer.symbol === 1) {
+                target.classList.toggle('player-one-cell');
+                target.innerText = 'O';
+            }
+            if (currentPlayer.symbol === 2) {
+                target.classList.toggle('player-two-cell');
+                target.innerText = 'X';
+            }
+
+            playerField.innerText = `${gameLogic.getActivePlayer().name}'s turn`;            
+        }
+    }
+
+    screenBoard.addEventListener('click', score);
 
     for(let i = 0; i < 9 ; i++) {
         const cellButton = document.createElement('button');
+        cellButton.classList.add('button')
+        cellButton.dataset.location = i;
         screenBoard.appendChild(cellButton);
     }
 

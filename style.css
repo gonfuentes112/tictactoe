@@ -25,11 +25,12 @@ h1, .info {
 main {
     width: 80%;
     height: 90%;
-    background-color: black;
+    background-color: #004;
     border-radius: 0.5rem;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
+    gap: 0.1rem;
 }
 
 .info {
@@ -38,7 +39,25 @@ main {
     justify-content: space-between;
 }
 
-button {
+.button {
     background-color: darkgoldenrod;
+    border-color:  darkgoldenrod;
     border-radius: 0.5rem;
+}
+
+.player-one-cell {
+    color: rgb(2, 68, 2);
+    background-color: green;
+    border-color: green;
+}
+
+.player-two-cell {
+    color: rgb(68, 2, 2);
+    background-color: rgb(168, 1, 24);
+    border-color: rgb(168, 1, 24);
+}
+
+.player-one-cell,
+.player-two-cell {
+    font-size: 10rem;
 }
