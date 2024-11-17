@@ -27,10 +27,18 @@ main {
     height: 90%;
     background-color: black;
     border-radius: 0.5rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
 }
 
 .info {
     display: flex;
     width: 80%;
     justify-content: space-between;
+}
+
+button {
+    background-color: darkgoldenrod;
+    border-radius: 0.5rem;
 }

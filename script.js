@@ -86,7 +86,15 @@ function Cell() {
 
 function GameLogic() {
     const gameBoard = Board();
-    const players = [1, 2];
+    const players = [
+                    {
+                        name: 'Player1',
+                        symbol: 1
+                    }, 
+                    {
+                        name: 'Player2',
+                        symbol: 2
+                    }];
     let activePlayer = players[0];
 
     const getActivePlayer = () => {
@@ -98,7 +106,7 @@ function GameLogic() {
     }
 
     const makeMove = (location) => {
-        const moveExecuted = gameBoard.markCell(activePlayer, location);
+        const moveExecuted = gameBoard.markCell(activePlayer.symbol, location);
         if (moveExecuted) {
             switchTurn();
         }
@@ -110,3 +118,21 @@ function GameLogic() {
         makeMove
     }
 }
+
+function GameVisual() {
+    const gameLogic = GameLogic();
+    const playerField = document.getElementById('player-turn-field');
+    playerField.innerText = `${gameLogic.getActivePlayer().name}'s turn`;
+    const winnerField = document.getElementById('winner-field');
+    const screenBoard = document.getElementById('screen-board');
+
+
+    for(let i = 0; i < 9 ; i++) {
+        const cellButton = document.createElement('button');
+        screenBoard.appendChild(cellButton);
+    }
+
+
+}
+
+GameVisual()
