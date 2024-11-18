@@ -141,11 +141,12 @@ function GameLogic() {
 }
 
 function GameVisual() {
-    const gameLogic = GameLogic();
+    let gameLogic = GameLogic();
     const playerField = document.getElementById('player-turn-field');
     playerField.innerText = `${gameLogic.getActivePlayer().name}'s turn`;
     const winnerField = document.getElementById('winner-field');
     const screenBoard = document.getElementById('screen-board');
+    const resetButton = document.getElementById('reset-button');
 
     function paintPlayerOneCells() {
         const buttonArray = Array.from(screenBoard.children);
@@ -227,13 +228,26 @@ function GameVisual() {
 
     screenBoard.addEventListener('click', score);
 
-    for(let i = 0; i < 9 ; i++) {
-        const cellButton = document.createElement('button');
-        cellButton.innerText = " ";
-        cellButton.classList.add('button')
-        cellButton.dataset.location = i;
-        screenBoard.appendChild(cellButton);
+    function createButtons(screenBoard) {
+        for(let i = 0; i < 9 ; i++) {
+            const cellButton = document.createElement('button');
+            cellButton.innerText = " ";
+            cellButton.classList.add('button')
+            cellButton.dataset.location = i;
+            screenBoard.appendChild(cellButton);
+        }
     }
+
+    createButtons(screenBoard);
+
+    function reset() {
+        gameLogic = GameLogic();
+        playerField.innerText = `${gameLogic.getActivePlayer().name}'s turn`;
+        screenBoard.replaceChildren();
+        screenBoard.addEventListener('click', score);
+        createButtons(screenBoard);
+    }
+    resetButton.addEventListener('click', reset);
 
 
 }

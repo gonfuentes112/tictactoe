@@ -16,6 +16,7 @@ body {
     justify-content: space-around;
     align-items: center;
     font-family: roboto, sans-serif;
+    gap: 0.5rem;
 }
 
 h1, .info {
@@ -38,6 +39,27 @@ main {
     display: flex;
     width: 80%;
     justify-content: space-between;
+    align-items: center;
+}
+
+.info div {
+    flex: 1;
+}
+
+#winner-field {
+    text-align: end;
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-wrap: nowrap;
+}
+
+#reset-button {
+    width: 30%;
+    font-weight: bold;
+    background-color: darkorange;
+    border-color: darkorange;
+    border-radius: 0.5rem;
+    font-size: 1.5rem;
 }
 
 .button {
