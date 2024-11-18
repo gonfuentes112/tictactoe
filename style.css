@@ -49,17 +49,39 @@ main {
 
 .player-one-cell {
     color: rgb(2, 68, 2);
-    background-color: green;
-    border-color: green;
+    background-color: rgb(1, 255, 24);
+    border-color: rgb(1, 255, 24);
 }
 
 .player-two-cell {
     color: rgb(68, 2, 2);
-    background-color: rgb(168, 1, 24);
-    border-color: rgb(168, 1, 24);
+    background-color: rgb(255, 1, 24);
+    border-color: rgb(255, 1, 24);
 }
 
 .player-one-cell,
 .player-two-cell {
     font-size: 10rem;
+}
+
+.player-one-wins {
+    border-color: greenyellow;
+    background-color: greenyellow;
+    box-shadow: 0px 0px 20px whitesmoke;
+}
+
+.player-two-loses {
+    border-color: darkred;
+    background-color: darkred;
+}
+
+.player-one-loses {
+    background-color: darkgreen;
+    border-color: darkgreen;;
+}
+
+.player-two-wins {
+    background-color: rgb(255, 100, 100);
+    border-color: rgb(255, 100, 100);
+    box-shadow: 0px 0px 20px whitesmoke;
 }

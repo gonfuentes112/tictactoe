@@ -147,6 +147,34 @@ function GameVisual() {
     const winnerField = document.getElementById('winner-field');
     const screenBoard = document.getElementById('screen-board');
 
+    function paintPlayerOneCells() {
+        const buttonArray = Array.from(screenBoard.children);
+        buttonArray.forEach(cell => {
+            if (cell.classList.contains('player-one-cell')) {
+                cell.classList.toggle('player-one-wins');
+            }
+            if (cell.classList.contains('player-two-cell')) {
+                cell.classList.toggle('player-two-loses');
+            }            
+
+            
+        });
+    }
+
+    function paintPlayerTwoCells() {
+        const buttonArray = Array.from(screenBoard.children);
+        buttonArray.forEach(cell => {
+            if (cell.classList.contains('player-one-cell')) {
+                cell.classList.toggle('player-one-loses');
+            }
+            if (cell.classList.contains('player-two-cell')) {
+                cell.classList.toggle('player-two-wins');
+            }            
+
+            
+        });
+    }
+
     function score(event) {
         const target = event.target;
         if (!target.classList.contains('button')) {
@@ -180,6 +208,11 @@ function GameVisual() {
             screenBoard.removeEventListener('click', score);
 
             if (gameLogic.existsWinner()) {
+                if (gameLogic.getActivePlayer().symbol === 1) {
+                    paintPlayerOneCells();
+                } else {
+                    paintPlayerTwoCells();
+                }
                 winnerField.innerText = `${gameLogic.getActivePlayer().name} WINS!!!`;
                 return;
             }
@@ -196,6 +229,7 @@ function GameVisual() {
 
     for(let i = 0; i < 9 ; i++) {
         const cellButton = document.createElement('button');
+        cellButton.innerText = " ";
         cellButton.classList.add('button')
         cellButton.dataset.location = i;
         screenBoard.appendChild(cellButton);
