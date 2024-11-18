@@ -11,7 +11,22 @@
     <script src="script.js" defer></script>
 </head>
 <body>
-    <h1>Tic Tac Toe</h1>
+    <header>
+        <div class="name-div">
+            <label for="player-one-name">Player1's name:</label>
+            <input type="text" id="player-one-name">
+            <button type="button" class="name-submit" id="player-one-name-submit" data-player-id="0">Submit</button>
+        </div>
+        
+        <h1>Tic Tac Toe</h1>
+        <div class="name-div">
+            <label for="player-two-name">Player2's name:</label>
+            <input type="text" id="player-two-name">
+            <button type="button" class="name-submit" id="player-two-name-submit" data-player-id="1">Submit</button>
+        </div>
+
+    </header>
+
     <div class="info">
         <div id="player-turn-field"></div>
         <button type="button" id="reset-button">RESET</button>

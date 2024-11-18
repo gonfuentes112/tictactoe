@@ -65,6 +65,10 @@ function GameLogic() {
                     }];
     let activePlayer = players[0];
 
+    const getPlayers = () => {
+        return players;
+    }
+
     const getActivePlayer = () => {
         return activePlayer;
     }
@@ -132,6 +136,7 @@ function GameLogic() {
     }
 
     return {
+        getPlayers,
         getActivePlayer,
         makeMove,
         switchTurn,
@@ -143,10 +148,29 @@ function GameLogic() {
 function GameVisual() {
     let gameLogic = GameLogic();
     const playerField = document.getElementById('player-turn-field');
+    const playerOneNameField = document.getElementById('player-one-name');
+    const playerOneNameButton = document.getElementById('player-one-name-submit');
+    const playerTwoNameField = document.getElementById('player-two-name');
+    const playerTwoNameButton = document.getElementById('player-two-name-submit');
     playerField.innerText = `${gameLogic.getActivePlayer().name}'s turn`;
     const winnerField = document.getElementById('winner-field');
     const screenBoard = document.getElementById('screen-board');
     const resetButton = document.getElementById('reset-button');
+
+    function changePlayerName(event) {
+        const playerID = event.target.dataset.playerId;
+        let newName;
+        if (playerID === "0") {
+            newName = playerOneNameField.value;
+        } else {
+            newName = playerTwoNameField.value;
+        }
+        gameLogic.getPlayers()[Number(playerID)].name = newName;
+        playerField.innerText = `${gameLogic.getActivePlayer().name}'s turn`;
+    }
+
+    playerOneNameButton.addEventListener('click', changePlayerName);
+    playerTwoNameButton.addEventListener('click', changePlayerName);
 
     function paintPlayerOneCells() {
         const buttonArray = Array.from(screenBoard.children);

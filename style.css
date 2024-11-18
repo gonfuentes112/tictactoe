@@ -19,8 +19,18 @@ body {
     gap: 0.5rem;
 }
 
-h1, .info {
+header {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+label, 
+h1, 
+.info {
     color: darkorange;
+    text-align: center;
 }
 
 main {
@@ -51,6 +61,17 @@ main {
     font-weight: bold;
     font-size: 1.5rem;
     text-wrap: nowrap;
+}
+
+.name-div {
+    display: flex;
+    gap: 1rem;
+}
+
+.name-submit {
+    background-color: darkorange;
+    border-color: darkorange;
+    border-radius: 0.5rem; 
 }
 
 #reset-button {
