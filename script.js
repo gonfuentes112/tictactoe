@@ -5,6 +5,14 @@ function Board() {
         innerBoard.push(Cell());
     }
 
+    const getBoard = () => {
+        return innerBoard;
+    }
+
+    const getSize = () => {
+        return size;
+    }
+
     const markCell = (playerValue, location) => {
         const cell = innerBoard[location];
         if (!cell.isEmpty()) {
@@ -14,51 +22,10 @@ function Board() {
         return true;
     }
 
-    function winHorizontal() {
-        let result = false;
-        for (let i = 0; i < size * size; i += size) {
-            result = board[i].getValue === board[i+1].getValue && board[i].getValue === board[i+2].getValue;
-            if (result) {
-                break;
-            }
-        }
-        return result;
-    }
-
-    function winVertical() {
-        let result = false;
-        for (let i = 0; i < size; i++) {
-            result = board[i].getValue === board[i+size].getValue && board[i].getValue === board[i+(size *2)].getValue;
-            if (result) {
-                break;
-            }
-        }
-        return result;
-    }
-
-    function winDiagonal() {
-        let result = false;
-        for (let i = 0; i < size -1; i+=size) {
-            result = board[i].getValue === board[(i+1)*size+(i+1)].getValue && board[i].getValue === board[(i+2)*size+(i+2)].getValue;
-            if (result) {
-                break;
-            }
-        }
-        return result;
-    }
-
-    const existsWinner = () => {
-        return winHorizontal() || winVertical() || winDiagonal();
-    }
-
-    const boardFull = () => {
-        innerBoard.every(cell => !cell.isEmpty());
-    }
-
     return {
-        markCell,
-        existsWinner,
-        boardFull,
+        getSize,
+        getBoard,
+        markCell
     }
 
 }
@@ -102,22 +69,74 @@ function GameLogic() {
         return activePlayer;
     }
 
-    function switchTurn() {
+    const switchTurn = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
     }
 
     const makeMove = (location) => {
         const moveExecuted = gameBoard.markCell(activePlayer.symbol, location);
-        if (moveExecuted) {
-            switchTurn();
-        }
         return moveExecuted;
+    }
 
+    function winHorizontal() {
+        let result = false;
+        const size = gameBoard.getSize();
+        const currentBoard = gameBoard.getBoard();
+        for (let i = 0; i < size * size; i += size) {
+            result = currentBoard[i].getValue() === currentBoard[i+1].getValue() 
+                    && currentBoard[i].getValue() === currentBoard[i+2].getValue()
+                    && currentBoard[i].getValue() !== 0;
+            if (result) {
+                break;
+            }
+        }
+        return result;
+    }
+
+    function winVertical() {
+        let result = false;
+        const size = gameBoard.getSize();
+        const currentBoard = gameBoard.getBoard();
+        for (let i = 0; i < size; i++) {
+            result = currentBoard[i].getValue() === currentBoard[i+size].getValue() 
+                    && currentBoard[i].getValue() === currentBoard[i+(size *2)].getValue()
+                    && currentBoard[i].getValue() !== 0;
+            if (result) {
+                break;
+            }
+        }
+        return result;
+    }
+
+    function winDiagonal() {
+        let result = false;
+        const size = gameBoard.getSize();
+        const currentBoard = gameBoard.getBoard();
+        for (let i = 0; i < size -1; i+=size) {
+            result = currentBoard[i].getValue() === currentBoard[(i+1)*size+(i+1)].getValue() 
+                    && currentBoard[i].getValue() === currentBoard[(i+2)*size+(i+2)].getValue()
+                    && currentBoard[i].getValue() !== 0;
+            if (result) {
+                break;
+            }
+        }
+        return result;
+    }
+
+    const existsWinner = () => {
+        return winHorizontal() || winVertical() || winDiagonal();
+    }
+
+    const boardFull = () => {
+        return gameBoard.getBoard().every(cell => !cell.isEmpty());
     }
 
     return {
         getActivePlayer,
-        makeMove
+        makeMove,
+        switchTurn,
+        existsWinner,
+        boardFull
     }
 }
 
@@ -152,7 +171,24 @@ function GameVisual() {
                 target.innerText = 'X';
             }
 
-            playerField.innerText = `${gameLogic.getActivePlayer().name}'s turn`;            
+            if (!gameLogic.existsWinner() && !gameLogic.boardFull() ) {
+                gameLogic.switchTurn();
+                playerField.innerText = `${gameLogic.getActivePlayer().name}'s turn`;
+                return;
+            }
+
+            screenBoard.removeEventListener('click', score);
+
+            if (gameLogic.existsWinner()) {
+                winnerField.innerText = `${gameLogic.getActivePlayer().name} WINS!!!`;
+                return;
+            }
+
+            if (gameLogic.boardFull()) {
+                winnerField.innerText = "GAME OVER: DRAW";
+            }
+
+            
         }
     }
 
